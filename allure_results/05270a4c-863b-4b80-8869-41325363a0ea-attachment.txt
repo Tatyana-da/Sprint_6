@@ -1,0 +1,3 @@
+Клиент: {'name': 'Мария', 'surname': 'Иванова', 'address': 'пр. Мира, д. 25', 'metro_station': 'Преображенская площадь', 'phone': '+79007654321'}
+Аренда: {'date': '16.07.2026', 'rental_days': 3, 'color': 'GREY', 'comment': ''}
+Кнопка: bottom
