@@ -56,14 +56,29 @@ class BasePage:
         except TimeoutException:
             return False
 
+    @allure.step("Проверить наличие элемента")
+    def is_element_present(self, locator, timeout=3):
+        try:
+            self.find_element(locator, timeout)
+            return True
+        except TimeoutException:
+            return False
+
+    @allure.step("Получить текущий URL")
     def get_current_url(self):
         return self.driver.current_url
 
+    @allure.step("Переключиться на новое окно")
     def switch_to_new_window(self):
         self.driver.switch_to.window(self.driver.window_handles[-1])
 
+    @allure.step("Получить количество окон")
     def get_window_handles_count(self):
         return len(self.driver.window_handles)
+
+    @allure.step("Открыть URL")
+    def open_url(self, url):
+        self.driver.get(url)
 
     @allure.step("Нажать логотип Яндекса")
     def click_yandex_logo(self):
@@ -82,10 +97,15 @@ class BasePage:
         if self.is_element_present(BasePageLocators.COOKIE_BUTTON):
             self.click_element(BasePageLocators.COOKIE_BUTTON)
 
-    def is_element_present(self, locator, timeout=3):
-        try:
-            self.find_element(locator, timeout)
-            return True
-        except TimeoutException:
-            return False
-        
+    @allure.step("Ожидать видимость элемента")
+    def wait_for_element_visible(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(locator)
+        )
+
+    @allure.step("Ожидать, что элемент станет кликабельным")
+    def wait_for_element_clickable(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(locator)
+        )
+    

@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 
 
 class HomePageLocators:
+    """Локаторы главной страницы"""
 
     BOTTOM_ORDER_BUTTON = (By.XPATH, "//div[@class='Home_FinishButton__1_cWm']//button")
     FAQ_SECTION = (By.CSS_SELECTOR, ".Home_FourPart__1uthg")

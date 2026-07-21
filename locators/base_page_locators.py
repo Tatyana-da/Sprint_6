@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 
 
 class BasePageLocators:
+    """Общие локаторы для всех страниц"""
 
     YANDEX_LOGO = (By.CSS_SELECTOR, ".Header_LogoYandex__3TSOI")
     SCOOTER_LOGO = (By.CSS_SELECTOR, ".Header_LogoScooter__3lsAR")

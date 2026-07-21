@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import allure
-import time
 
 
 class OrderPage(BasePage):
@@ -20,10 +19,8 @@ class OrderPage(BasePage):
     def _select_metro(self, station_name):
         metro_input = self.find_element(OrderPageLocators.METRO_INPUT)
         metro_input.click()
-        time.sleep(0.5)
         metro_input.clear()
         metro_input.send_keys(station_name)
-        time.sleep(1)
 
         WebDriverWait(self.driver, 5).until(
             EC.presence_of_all_elements_located((By.XPATH, "//button[contains(@class, 'select-search__option')]"))
@@ -31,7 +28,6 @@ class OrderPage(BasePage):
 
         option = self.driver.find_element(By.XPATH, f"//button[contains(@class, 'select-search__option') and contains(., '{station_name}')]")
         option.click()
-        time.sleep(0.5)
 
     @allure.step("Нажать 'Далее'")
     def click_next(self):
@@ -40,18 +36,15 @@ class OrderPage(BasePage):
     @allure.step("Заполнить данные аренды")
     def fill_rental_data(self, date, rental_days, color, comment):
         self.send_keys_to_element(OrderPageLocators.DATE_INPUT, date)
-        time.sleep(0.5)
 
+        self.wait_for_element_visible((By.XPATH, "//div[contains(text(),'Про аренду')]"))
         self.driver.find_element(By.XPATH, "//div[contains(text(),'Про аренду')]").click()
-        time.sleep(0.5)
 
         self._select_rental_period(rental_days)
         
-        # Выбор цвета только если он указан
         if color:
             self._select_color(color)
         
-        # Ввод комментария только если он указан
         if comment:
             self.send_keys_to_element(OrderPageLocators.COMMENT_INPUT, comment)
 
@@ -67,15 +60,12 @@ class OrderPage(BasePage):
         }
 
         dropdown = self.find_element(OrderPageLocators.RENTAL_PERIOD_DROPDOWN)
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", dropdown)
-        time.sleep(0.3)
+        self.scroll_to_element(OrderPageLocators.RENTAL_PERIOD_DROPDOWN)
         dropdown.click()
-        time.sleep(0.5)
 
         option_text = rental_periods[days]
         option = self.driver.find_element(By.XPATH, f"//div[contains(@class, 'Dropdown-option') and text()='{option_text}']")
         option.click()
-        time.sleep(0.3)
 
     def _select_color(self, color):
         color_locators = {

@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 
 
 class OrderPageLocators:
+    """Локаторы страницы оформления заказа"""
 
     # Шаг 1 - Данные клиента
     NAME_INPUT = (By.XPATH, "//input[@placeholder='* Имя']")
@@ -16,10 +17,10 @@ class OrderPageLocators:
     RENTAL_PERIOD_DROPDOWN = (By.CLASS_NAME, "Dropdown-control")
 
     @staticmethod
-    def get_rental_period_option_by_text(text):
-        return (By.XPATH, f"//div[@class='Dropdown-menu']//div[contains(text(),'{text}')]")
+    def get_rental_period_option(text):
+        return (By.XPATH, f"//div[contains(@class, 'Dropdown-option') and text()='{text}']")
 
-    # Цвета самоката (по id)
+    # Цвета самоката
     COLOR_BLACK = (By.ID, "black")
     COLOR_GREY = (By.ID, "grey")
     
@@ -29,4 +30,11 @@ class OrderPageLocators:
     # Модальные окна
     CONFIRM_BUTTON = (By.XPATH, "//button[contains(text(),'Да')]")
     SUCCESS_MODAL = (By.XPATH, "//div[contains(@class, 'Order_ModalHeader')]")
+
+    # Метро опции
+    METRO_OPTIONS = (By.XPATH, "//button[contains(@class, 'select-search__option')]")
+
+    @staticmethod
+    def get_metro_option_by_text(station_name):
+        return (By.XPATH, f"//button[contains(@class, 'select-search__option') and contains(., '{station_name}')]")
     

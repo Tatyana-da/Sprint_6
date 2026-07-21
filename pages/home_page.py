@@ -1,7 +1,7 @@
 from pages.base_page import BasePage
 from locators.home_page_locators import HomePageLocators
+from selenium.webdriver.common.by import By
 import allure
-import time
 
 
 class HomePage(BasePage):
@@ -13,7 +13,7 @@ class HomePage(BasePage):
     @allure.step("Открыть главную страницу")
     def open(self):
         self.driver.get(self.url)
-        time.sleep(2)
+        self.wait_for_element_visible((By.CSS_SELECTOR, "body"))
         self.accept_cookies()
         return self
 
@@ -30,6 +30,7 @@ class HomePage(BasePage):
 
     @allure.step("Получить текст видимого ответа FAQ")
     def get_faq_answer_text(self):
+        self.wait_for_element_visible(HomePageLocators.FAQ_VISIBLE_ANSWER)
         return self.get_text(HomePageLocators.FAQ_VISIBLE_ANSWER)
 
     @allure.step("Проверить, что ответ отображается")

@@ -1,3 +1,0 @@
-Клиент: {'name': 'Алексей', 'surname': 'Смирнов', 'address': 'ул. Арбат, д. 10', 'metro_station': 'Черкизовская', 'phone': '+79009998877'}
-Аренда: {'date': '17.07.2026', 'rental_days': 1, 'color': '', 'comment': ''}
-Кнопка: bottom
