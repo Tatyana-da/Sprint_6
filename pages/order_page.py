@@ -1,6 +1,5 @@
 from pages.base_page import BasePage
 from locators.order_page_locators import OrderPageLocators
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import allure
@@ -23,10 +22,10 @@ class OrderPage(BasePage):
         metro_input.send_keys(station_name)
 
         WebDriverWait(self.driver, 5).until(
-            EC.presence_of_all_elements_located((By.XPATH, "//button[contains(@class, 'select-search__option')]"))
+            EC.presence_of_all_elements_located(OrderPageLocators.METRO_OPTIONS)
         )
 
-        option = self.driver.find_element(By.XPATH, f"//button[contains(@class, 'select-search__option') and contains(., '{station_name}')]")
+        option = self.find_element(OrderPageLocators.get_metro_option_by_text(station_name))
         option.click()
 
     @allure.step("Нажать 'Далее'")
@@ -37,8 +36,8 @@ class OrderPage(BasePage):
     def fill_rental_data(self, date, rental_days, color, comment):
         self.send_keys_to_element(OrderPageLocators.DATE_INPUT, date)
 
-        self.wait_for_element_visible((By.XPATH, "//div[contains(text(),'Про аренду')]"))
-        self.driver.find_element(By.XPATH, "//div[contains(text(),'Про аренду')]").click()
+        self.wait_for_element_visible(OrderPageLocators.RENTAL_SECTION)
+        self.click_element(OrderPageLocators.RENTAL_SECTION)
 
         self._select_rental_period(rental_days)
         
@@ -64,7 +63,7 @@ class OrderPage(BasePage):
         dropdown.click()
 
         option_text = rental_periods[days]
-        option = self.driver.find_element(By.XPATH, f"//div[contains(@class, 'Dropdown-option') and text()='{option_text}']")
+        option = self.find_element(OrderPageLocators.get_rental_period_option(option_text))
         option.click()
 
     def _select_color(self, color):

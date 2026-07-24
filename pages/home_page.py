@@ -1,19 +1,17 @@
 from pages.base_page import BasePage
 from locators.home_page_locators import HomePageLocators
-from selenium.webdriver.common.by import By
 import allure
+from config import Config
 
 
 class HomePage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self.url = "https://qa-scooter.education-services.ru/"
 
     @allure.step("Открыть главную страницу")
     def open(self):
-        self.driver.get(self.url)
-        self.wait_for_element_visible((By.CSS_SELECTOR, "body"))
+        self.open_url(Config.BASE_URL)
         self.accept_cookies()
         return self
 

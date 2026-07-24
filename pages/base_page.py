@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
 import allure
 from locators.base_page_locators import BasePageLocators
 
@@ -80,6 +81,32 @@ class BasePage:
     def open_url(self, url):
         self.driver.get(url)
 
+    @allure.step("Кликнуть по XPATH")
+    def click_by_xpath(self, xpath):
+        self.click_element((By.XPATH, xpath))
+
+    @allure.step("Найти по XPATH")
+    def find_by_xpath(self, xpath):
+        return self.find_element((By.XPATH, xpath))
+
+    @allure.step("Ожидать видимость XPATH")
+    def wait_for_xpath_visible(self, xpath, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located((By.XPATH, xpath))
+        )
+
+    @allure.step("Ожидать видимость элемента")
+    def wait_for_element_visible(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(locator)
+        )
+
+    @allure.step("Ожидать кликабельность элемента")
+    def wait_for_element_clickable(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(locator)
+        )
+
     @allure.step("Нажать логотип Яндекса")
     def click_yandex_logo(self):
         self.click_element(BasePageLocators.YANDEX_LOGO)
@@ -96,16 +123,4 @@ class BasePage:
     def accept_cookies(self):
         if self.is_element_present(BasePageLocators.COOKIE_BUTTON):
             self.click_element(BasePageLocators.COOKIE_BUTTON)
-
-    @allure.step("Ожидать видимость элемента")
-    def wait_for_element_visible(self, locator, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(
-            EC.visibility_of_element_located(locator)
-        )
-
-    @allure.step("Ожидать, что элемент станет кликабельным")
-    def wait_for_element_clickable(self, locator, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(
-            EC.element_to_be_clickable(locator)
-        )
-    
+            

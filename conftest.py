@@ -6,12 +6,31 @@ from pages.home_page import HomePage
 from pages.order_page import OrderPage
 from helpers import generate_order_data
 from data.faq_data import FAQ_DATA
+import os
 
 
 @pytest.fixture(scope="function")
 def driver():
     options = Options()
-    service = Service(r"C:\Users\gorin\Desktop\Проект_Яндекс.Практикум\Sprint_6\geckodriver.exe")
+    possible_paths = [
+        os.path.join(os.path.dirname(__file__), "geckodriver.exe"),
+        "geckodriver.exe"
+    ]
+    
+    geckodriver_path = None
+    for path in possible_paths:
+        if os.path.exists(path):
+            geckodriver_path = path
+            break
+    
+    if not geckodriver_path:
+        raise FileNotFoundError(
+            "geckodriver.exe не найден! Скачайте его с:\n"
+            "https://github.com/mozilla/geckodriver/releases\n"
+            "и поместите в папку проекта Sprint_6/ или добавьте в PATH"
+        )
+    
+    service = Service(geckodriver_path)
     driver = webdriver.Firefox(service=service, options=options)
     driver.maximize_window()
     yield driver

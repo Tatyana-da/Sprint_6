@@ -2,7 +2,6 @@ from selenium.webdriver.common.by import By
 
 
 class OrderPageLocators:
-    """Локаторы страницы оформления заказа"""
 
     # Шаг 1 - Данные клиента
     NAME_INPUT = (By.XPATH, "//input[@placeholder='* Имя']")
@@ -15,6 +14,7 @@ class OrderPageLocators:
     # Шаг 2 - Данные аренды
     DATE_INPUT = (By.XPATH, "//input[@placeholder='* Когда привезти самокат']")
     RENTAL_PERIOD_DROPDOWN = (By.CLASS_NAME, "Dropdown-control")
+    RENTAL_SECTION = (By.XPATH, "//div[contains(text(),'Про аренду')]")
 
     @staticmethod
     def get_rental_period_option(text):
